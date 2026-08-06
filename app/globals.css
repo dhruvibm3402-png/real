@@ -1,0 +1,55 @@
+@import "tailwindcss";
+
+/* ── Custom design tokens ── */
+@theme inline {
+  --color-gold:        #C9A84C;
+  --color-gold-light:  #E8C97A;
+  --color-charcoal:    #1A1A1A;
+  --color-obsidian:    #0D0D0D;
+  --color-glass:       rgba(255,255,255,0.06);
+  --color-glass-border: rgba(255,255,255,0.12);
+
+  --font-display: var(--font-cormorant);
+  --font-sans:    var(--font-inter);
+}
+
+/* ── Base reset ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: #ffffff;
+  color: #0f172a;
+  font-family: var(--font-inter, 'Inter', sans-serif);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Utility: gold gradient text ── */
+.text-gold-gradient {
+  background: linear-gradient(135deg, #C9A84C 0%, #E8C97A 50%, #C9A84C 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Glassmorphism card ── */
+.glass-card {
+  background: rgba(255,255,255,0.05);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255,255,255,0.10);
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: #0D0D0D; }
+::-webkit-scrollbar-thumb { background: #C9A84C; border-radius: 2px; }
+
+/* ── Section fade-in via JS ── */
+.reveal { opacity: 0; transform: translateY(40px); }
+.reveal.visible { opacity: 1; transform: translateY(0); transition: opacity 0.8s ease, transform 0.8s ease; }
+
+/* ── Magnetic button cursor ── */
+.magnetic { cursor: none; }
