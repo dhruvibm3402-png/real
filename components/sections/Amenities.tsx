@@ -35,12 +35,22 @@ const services = [
 
 export default function Amenities() {
   return (
-    <section id="services" style={{ background: '#080c14', padding: '120px 0', fontFamily: 'Inter, Arial, sans-serif' }}>
-      <div style={{ maxWidth: 1440, margin: '0 auto', padding: '0 48px' }}>
+    <section id="services" style={{ background: '#080c14', padding: '80px 0', fontFamily: 'Inter, Arial, sans-serif' }}>
+      <style>{`
+        @media (max-width: 768px) {
+          .am-grid { grid-template-columns: 1fr !important; }
+          .am-wrap { padding: 0 20px !important; }
+          .am-title { font-size: 32px !important; }
+        }
+        @media (min-width: 769px) and (max-width: 1024px) {
+          .am-grid { grid-template-columns: repeat(2, 1fr) !important; }
+        }
+      `}</style>
+      <div className="am-wrap" style={{ maxWidth: 1440, margin: '0 auto', padding: '0 48px' }}>
         <div style={{ textAlign: 'center', marginBottom: 60 }}>
-          <h2 style={{ fontSize: 48, fontWeight: 400, lineHeight: 1.1, marginBottom: 24, letterSpacing: '-0.02em', color: '#f0f4ff' }}>Our Services</h2>
+          <h2 className="am-title" style={{ fontSize: 48, fontWeight: 400, lineHeight: 1.1, marginBottom: 24, letterSpacing: '-0.02em', color: '#f0f4ff' }}>Our Services</h2>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 1, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 16, overflow: 'hidden' }}>
+        <div className="am-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 1, background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.06)', borderRadius: 16, overflow: 'hidden' }}>
           {services.map((s) => (
             <div key={s.title} style={{ position: 'relative', background: '#0d1220', padding: '44px 40px 40px', display: 'flex', flexDirection: 'column', gap: 0, overflow: 'hidden', transition: 'background 0.35s' }}
               onMouseEnter={e => (e.currentTarget as HTMLDivElement).style.background = '#111827'}

@@ -11,15 +11,26 @@ const propData = [
 
 export default function FeaturedProperties() {
   return (
-    <section id="featured-properties" style={{ background: '#fff', padding: '120px 0', fontFamily: 'Inter, Arial, sans-serif' }}>
-      <div style={{ maxWidth: 1440, margin: '0 auto', padding: '0 48px' }}>
+    <section id="featured-properties" style={{ background: '#fff', padding: '80px 0', fontFamily: 'Inter, Arial, sans-serif' }}>
+      <style>{`
+        @media (max-width: 768px) {
+          .fp-grid { grid-template-columns: 1fr !important; gap: 24px !important; }
+          .fp-wrap { padding: 0 20px !important; }
+          .fp-title { font-size: 32px !important; }
+          .fp-section { padding: 60px 0 !important; }
+        }
+        @media (min-width: 769px) and (max-width: 1024px) {
+          .fp-grid { grid-template-columns: repeat(2, 1fr) !important; }
+        }
+      `}</style>
+      <div className="fp-wrap" style={{ maxWidth: 1440, margin: '0 auto', padding: '0 48px' }}>
         <div style={{ marginBottom: 60 }}>
-          <h2 style={{ fontSize: 48, fontWeight: 400, lineHeight: 1.1, marginBottom: 24, letterSpacing: '-0.02em', color: '#0f172a' }}>Featured Properties</h2>
+          <h2 className="fp-title" style={{ fontSize: 48, fontWeight: 400, lineHeight: 1.1, marginBottom: 24, letterSpacing: '-0.02em', color: '#0f172a' }}>Featured Properties</h2>
           <p style={{ fontSize: 16, lineHeight: 1.6, color: 'rgba(15,23,42,0.6)', maxWidth: 600 }}>
             Discover our handpicked collection of luxury apartments, villas, commercial spaces, and investment-ready developments.
           </p>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 40 }}>
+        <div className="fp-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 40 }}>
           {propData.map((p) => (
             <div key={p.name} style={{ border: '1px solid rgba(14,165,233,0.15)', borderRadius: 4, transition: 'transform 0.3s, box-shadow 0.3s' }}
               onMouseEnter={e => { (e.currentTarget as HTMLDivElement).style.transform = 'translateY(-5px)'; (e.currentTarget as HTMLDivElement).style.boxShadow = '0 10px 40px rgba(0,0,0,0.08)'; }}
@@ -29,7 +40,7 @@ export default function FeaturedProperties() {
                   onMouseEnter={e => (e.currentTarget as HTMLImageElement).style.transform = 'scale(1.03)'}
                   onMouseLeave={e => (e.currentTarget as HTMLImageElement).style.transform = ''} />
               </div>
-              <div style={{ padding: 30 }}>
+              <div style={{ padding: 24 }}>
                 <h3 style={{ fontSize: 20, fontWeight: 500, marginBottom: 5, color: '#0f172a' }}>{p.name}</h3>
                 <p style={{ fontSize: 14, color: 'rgba(15,23,42,0.5)', marginBottom: 20 }}>{p.location}</p>
                 <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, padding: '15px 0', borderTop: '1px solid rgba(14,165,233,0.15)', borderBottom: '1px solid rgba(14,165,233,0.15)', color: 'rgba(15,23,42,0.6)' }}>
