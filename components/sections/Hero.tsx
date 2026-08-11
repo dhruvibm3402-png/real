@@ -63,7 +63,7 @@ export default function Hero() {
   const radiusY = 180;
 
   useEffect(() => {
-    const update = () => setRadiusX(window.innerWidth < 768 ? 360 : 680);
+    const update = () => setRadiusX(window.innerWidth < 768 ? window.innerWidth * 0.40 : 680);
     update();
     window.addEventListener('resize', update);
     return () => window.removeEventListener('resize', update);
@@ -162,7 +162,7 @@ export default function Hero() {
 
   const activeProp = locked !== null ? properties[locked % properties.length]
     : hovered !== null ? properties[hovered % properties.length]
-    : null;
+      : null;
 
   return (
     <section
@@ -172,17 +172,17 @@ export default function Hero() {
     >
       {/* Center copy */}
       {!activeProp && (
-        <div style={{
-          position: 'absolute', top: '30%', left: '50%', transform: 'translateX(-50%)',
-          zIndex: 20, textAlign: 'center', width: '100%', maxWidth: 720,
+        <div className="hero-text-container" style={{
+          position: 'absolute', top: '25%', left: '50%', transform: 'translateX(-50%)',
+          zIndex: 20, textAlign: 'center', width: '100%', maxWidth: 720, padding: '0 20px'
         }}>
-          <h1 style={{
-            fontSize: 'clamp(42px,5vw,76px)', fontWeight: 700, lineHeight: 1,
-            letterSpacing: '-2px', marginBottom: 24, color: '#fff',
+          <h1 className="hero-title" style={{
+            fontWeight: 700, lineHeight: 1.1,
+            letterSpacing: '-1px', marginBottom: 20, color: '#fff',
           }}>
             Find Your Next Landmark Property.
           </h1>
-          <p style={{ fontSize: 'clamp(15px,2vw,20px)', lineHeight: 1.45, color: 'rgba(255,255,255,0.6)', maxWidth: 620, margin: '0 auto' }}>
+          <p className="hero-subtitle" style={{ lineHeight: 1.5, color: 'rgba(255,255,255,0.7)', maxWidth: 620, margin: '0 auto' }}>
             Explore 300+ curated luxury residences, commercial spaces, villas, and investment-ready developments.
           </p>
         </div>
@@ -191,10 +191,11 @@ export default function Hero() {
       {/* Center property info */}
       {activeProp && (
         <div style={{
-          position: 'absolute', top: '25%', left: '50%', transform: 'translateX(-50%)',
-          zIndex: 20, textAlign: 'center', width: '100%', maxWidth: 600,
+          position: 'absolute', top: '15%', left: '50%', transform: 'translateX(-50%)',
+          zIndex: 20, textAlign: 'center', width: '90%', maxWidth: 450, padding: '20px',
+          background: 'rgba(10, 14, 26, 0.7)', backdropFilter: 'blur(10px)', borderRadius: 12, border: '1px solid rgba(255,255,255,0.1)'
         }}>
-          <div style={{ width: 320, height: 180, margin: '0 auto 16px', borderRadius: 4, overflow: 'hidden' }}>
+          <div style={{ width: '100%', aspectRatio: '16/9', margin: '0 auto 16px', borderRadius: 8, overflow: 'hidden' }}>
             <img src={activeProp.image} alt={activeProp.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           </div>
           <h2 style={{ fontSize: 32, fontWeight: 700, marginBottom: 16, letterSpacing: '-1px', color: '#fff' }}>
@@ -224,12 +225,23 @@ export default function Hero() {
       </div>
 
       {/* Bottom instruction */}
-      <div style={{
-        position: 'absolute', bottom: 24, left: '50%', transform: 'translateX(-50%)',
-        letterSpacing: 4, fontSize: 11, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', zIndex: 20,
+      <div className="hero-bottom-text" style={{
+        position: 'absolute', bottom: 24, left: '50%', transform: 'translateX(-50%)', width: '100%', textAlign: 'center',
+        letterSpacing: 3, fontWeight: 500, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', zIndex: 20,
       }}>
         MOVE TO EXPLORE · CLICK TO LOCK A PROPERTY
       </div>
+      <style>{`
+        .hero-title { font-size: 76px; }
+        .hero-subtitle { font-size: 20px; }
+        .hero-bottom-text { font-size: 11px; }
+        @media (max-width: 768px) {
+          .hero-title { font-size: 40px !important; margin-bottom: 12px !important; }
+          .hero-subtitle { font-size: 15px !important; }
+          .hero-bottom-text { font-size: 9px !important; letter-spacing: 2px !important; }
+          .hero-text-container { top: 15% !important; }
+        }
+      `}</style>
     </section>
   );
 }

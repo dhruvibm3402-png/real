@@ -11,7 +11,7 @@ const propData = [
 
 export default function FeaturedProperties() {
   return (
-    <section id="featured-properties" style={{ background: '#fff', padding: '80px 0', fontFamily: 'Inter, Arial, sans-serif' }}>
+    <section id="featured-properties" className="fp-section" style={{ background: '#fff', padding: '80px 0', fontFamily: 'Inter, Arial, sans-serif' }}>
       <style>{`
         @media (max-width: 768px) {
           .fp-grid { grid-template-columns: 1fr !important; gap: 24px !important; }

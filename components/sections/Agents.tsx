@@ -2,9 +2,10 @@
 
 export default function Agents() {
   return (
-    <section id="investment" style={{ background: '#e0f2fe', padding: '80px 0', fontFamily: 'Inter, Arial, sans-serif' }}>
+    <section id="investment" className="agents-section" style={{ background: '#e0f2fe', padding: '80px 0', fontFamily: 'Inter, Arial, sans-serif' }}>
       <style>{`
         @media (max-width: 768px) {
+          .agents-section { padding: 40px 0 !important; }
           .agents-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
           .agents-wrap { padding: 0 20px !important; }
           .agents-title { font-size: 32px !important; }

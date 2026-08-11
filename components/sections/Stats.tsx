@@ -31,7 +31,7 @@ function Counter({ target }: { target: number }) {
 
 export default function Stats() {
   return (
-    <section id="about" style={{ background: '#fff', padding: '80px 0', fontFamily: 'Inter, Arial, sans-serif' }}>
+    <section id="about" className="stats-section" style={{ background: '#fff', padding: '80px 0', fontFamily: 'Inter, Arial, sans-serif' }}>
       <style>{`
         @media (max-width: 768px) {
           .stats-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
