@@ -27,7 +27,6 @@ const sampleImages = [
   'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=300&q=80',
   'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=300&q=80',
   'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?auto=format&fit=crop&w=300&q=80',
-  'https://images.unsplash.com/photo-1600585153245-5df18ccae538?auto=format&fit=crop&w=300&q=80',
   'https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?auto=format&fit=crop&w=300&q=80',
   'https://images.unsplash.com/photo-1582268611958-ebfd161ef9cf?auto=format&fit=crop&w=300&q=80',
 ];
@@ -45,7 +44,7 @@ const properties = Array.from({ length: 300 }, (_, i) => ({
   status: statuses[i % statuses.length],
 }));
 
-const TOTAL_PANELS = 150;
+const TOTAL_PANELS = 36;
 
 export default function Hero() {
   const orbitRef = useRef<HTMLDivElement>(null);
@@ -59,11 +58,15 @@ export default function Hero() {
 
   const [locked, setLocked] = useState<number | null>(null);
   const [hovered, setHovered] = useState<number | null>(null);
-  const [radiusX, setRadiusX] = useState(680);
-  const radiusY = 180;
+  const [radiusX, setRadiusX] = useState(580);
+  const [radiusY, setRadiusY] = useState(150);
 
   useEffect(() => {
-    const update = () => setRadiusX(window.innerWidth < 768 ? window.innerWidth * 0.40 : 680);
+    const update = () => {
+      const isMobile = window.innerWidth < 768;
+      setRadiusX(isMobile ? window.innerWidth * 0.45 : 580);
+      setRadiusY(isMobile ? window.innerWidth * 0.30 : 150);
+    };
     update();
     window.addEventListener('resize', update);
     return () => window.removeEventListener('resize', update);
@@ -81,7 +84,7 @@ export default function Hero() {
       const panel = document.createElement('div');
       panel.style.cssText = `
         position:absolute; left:50%; top:50%;
-        width:42px; height:112px;
+        width:86px; height:200px;
         overflow:hidden; border:1px solid rgba(255,255,255,0.18);
         transform-origin:center center; will-change:transform,opacity,filter;
         cursor:pointer;
@@ -158,7 +161,7 @@ export default function Hero() {
     };
     rafRef.current = requestAnimationFrame(render);
     return () => cancelAnimationFrame(rafRef.current);
-  }, [radiusX, hovered, locked]);
+  }, [radiusX, radiusY, hovered, locked]);
 
   const activeProp = locked !== null ? properties[locked % properties.length]
     : hovered !== null ? properties[hovered % properties.length]
@@ -192,7 +195,7 @@ export default function Hero() {
       {activeProp && (
         <div style={{
           position: 'absolute', top: '15%', left: '50%', transform: 'translateX(-50%)',
-          zIndex: 20, textAlign: 'center', width: '90%', maxWidth: 450, padding: '20px',
+          zIndex: 20, textAlign: 'center', width: '90%', maxWidth: 500, padding: '24px',
           background: 'rgba(10, 14, 26, 0.7)', backdropFilter: 'blur(10px)', borderRadius: 12, border: '1px solid rgba(255,255,255,0.1)'
         }}>
           <div style={{ width: '100%', aspectRatio: '16/9', margin: '0 auto 16px', borderRadius: 8, overflow: 'hidden' }}>
@@ -224,13 +227,7 @@ export default function Hero() {
         <div ref={orbitRef} style={{ position: 'absolute', width: '100%', height: '100%', transformStyle: 'preserve-3d' }} />
       </div>
 
-      {/* Bottom instruction */}
-      <div className="hero-bottom-text" style={{
-        position: 'absolute', bottom: 24, left: '50%', transform: 'translateX(-50%)', width: '100%', textAlign: 'center',
-        letterSpacing: 3, fontWeight: 500, color: 'rgba(255,255,255,0.4)', textTransform: 'uppercase', zIndex: 20,
-      }}>
-        MOVE TO EXPLORE · CLICK TO LOCK A PROPERTY
-      </div>
+
       <style>{`
         .hero-title { font-size: 76px; }
         .hero-subtitle { font-size: 20px; }
