@@ -12,6 +12,7 @@ import Agents from '@/components/sections/Agents';
 import VideoShowcase from '@/components/sections/VideoShowcase';
 import Contact from '@/components/sections/Contact';
 import FAQ from '@/components/sections/FAQ';
+import WelcomeIntro from '@/components/ui/WelcomeIntro';
 import { useScrollAnimations } from '@/hooks/useScrollAnimations';
 
 export default function HomePage() {
@@ -19,6 +20,7 @@ export default function HomePage() {
 
   return (
     <main style={{ overflowX: 'hidden' }}>
+      <WelcomeIntro />
       <Navbar />
       <Hero />
       <FeaturedProperties />   {/* Featured Properties */}

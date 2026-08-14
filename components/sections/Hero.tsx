@@ -180,7 +180,7 @@ export default function Hero() {
       return;
     }
 
-    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+    const tl = gsap.timeline({ defaults: { ease: 'power3.out' }, delay: 2.5 });
 
     tl.fromTo(pulseRing1Ref.current,
       { scale: 0, opacity: 1 },
