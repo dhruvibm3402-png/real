@@ -64,9 +64,9 @@ export default function Hero() {
   useEffect(() => {
     const update = () => {
       const isMobile = window.innerWidth < 768;
-      setNumPanels(isMobile ? 16 : 36);
-      setRadiusX(isMobile ? window.innerWidth * 0.36 : 580);
-      setRadiusY(isMobile ? window.innerWidth * 0.28 : 150);
+      setNumPanels(isMobile ? 24 : 36);
+      setRadiusX(isMobile ? window.innerWidth * 1.1 : 580);
+      setRadiusY(isMobile ? window.innerWidth * 0.45 : 150);
     };
     update();
     window.addEventListener('resize', update);
@@ -252,13 +252,13 @@ export default function Hero() {
           .hero-text-container { top: 15% !important; }
           
           .hero-ring {
-            top: 60%;
+            top: 55%;
             height: 380px;
           }
           
           .hero-panel {
-            width: 100px;
-            height: 232px;
+            width: 130px;
+            height: 302px;
           }
         }
       `}</style>
