@@ -308,7 +308,7 @@ export default function Hero() {
           .hero-title { font-size: 40px !important; margin-bottom: 12px !important; }
           .hero-subtitle { font-size: 15px !important; }
           .hero-bottom-text { font-size: 9px !important; letter-spacing: 2px !important; }
-          .hero-text-container { top: 25% !important; }
+          .hero-text-container { top: 12% !important; }
           
           .hero-ring {
             top: 55%;
