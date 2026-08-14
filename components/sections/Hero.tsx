@@ -44,7 +44,6 @@ const properties = Array.from({ length: 300 }, (_, i) => ({
   status: statuses[i % statuses.length],
 }));
 
-const TOTAL_PANELS = 36;
 
 export default function Hero() {
   const orbitRef = useRef<HTMLDivElement>(null);
@@ -58,14 +57,16 @@ export default function Hero() {
 
   const [locked, setLocked] = useState<number | null>(null);
   const [hovered, setHovered] = useState<number | null>(null);
+  const [numPanels, setNumPanels] = useState(36);
   const [radiusX, setRadiusX] = useState(580);
   const [radiusY, setRadiusY] = useState(150);
 
   useEffect(() => {
     const update = () => {
       const isMobile = window.innerWidth < 768;
-      setRadiusX(isMobile ? window.innerWidth * 0.45 : 580);
-      setRadiusY(isMobile ? window.innerWidth * 0.30 : 150);
+      setNumPanels(isMobile ? 16 : 36);
+      setRadiusX(isMobile ? window.innerWidth * 0.36 : 580);
+      setRadiusY(isMobile ? window.innerWidth * 0.28 : 150);
     };
     update();
     window.addEventListener('resize', update);
@@ -79,12 +80,12 @@ export default function Hero() {
     orbit.innerHTML = '';
     panelEls.current = [];
 
-    for (let i = 0; i < TOTAL_PANELS; i++) {
+    for (let i = 0; i < numPanels; i++) {
       const prop = properties[i % properties.length];
       const panel = document.createElement('div');
+      panel.className = 'hero-panel';
       panel.style.cssText = `
         position:absolute; left:50%; top:50%;
-        width:86px; height:200px;
         overflow:hidden; border:1px solid rgba(255,255,255,0.18);
         transform-origin:center center; will-change:transform,opacity,filter;
         cursor:pointer;
@@ -96,7 +97,7 @@ export default function Hero() {
 
       panel.addEventListener('mouseenter', () => setHovered(i));
       panel.addEventListener('mouseleave', () => setHovered(null));
-      panel.addEventListener('click', (e) => {
+      panel.addEventListener('click', (e: MouseEvent) => {
         e.stopPropagation();
         setLocked(prev => prev === i ? null : i);
       });
@@ -104,7 +105,7 @@ export default function Hero() {
       orbit.appendChild(panel);
       panelEls.current.push(panel);
     }
-  }, []);
+  }, [numPanels]);
 
   // Mouse velocity
   useEffect(() => {
@@ -139,7 +140,7 @@ export default function Hero() {
         rotationRef.current += velocityRef.current;
       }
       panelEls.current.forEach((el, index) => {
-        const angle = (index / TOTAL_PANELS) * Math.PI * 2 + rotationRef.current;
+        const angle = (index / numPanels) * Math.PI * 2 + rotationRef.current;
         const x = Math.cos(angle) * rx;
         const y = Math.sin(angle) * radiusY;
         const zDepth = (Math.sin(angle) + 1) / 2;
@@ -153,7 +154,7 @@ export default function Hero() {
         el.style.transform = `translate(-50%,-50%) translate3d(${x}px,${y}px,0) scale(${finalScale}) rotateY(${rotateY}deg)`;
         el.style.opacity = String(isH || isL ? 1 : opacity);
         el.style.filter = isH || isL ? 'brightness(1.1) blur(0px)' : `blur(${blur}px)`;
-        el.style.zIndex = String(isL ? TOTAL_PANELS + 10 : Math.round(zDepth * TOTAL_PANELS));
+        el.style.zIndex = String(isL ? numPanels + 10 : Math.round(zDepth * numPanels));
         el.style.boxShadow = isL ? '0 12px 24px rgba(0,0,0,0.8),0 0 10px rgba(255,255,255,0.1)' : '0 8px 18px rgba(0,0,0,0.4)';
         el.style.border = isL ? '1px solid rgba(255,255,255,0.6)' : '1px solid rgba(255,255,255,0.18)';
       });
@@ -161,7 +162,7 @@ export default function Hero() {
     };
     rafRef.current = requestAnimationFrame(render);
     return () => cancelAnimationFrame(rafRef.current);
-  }, [radiusX, radiusY, hovered, locked]);
+  }, [radiusX, radiusY, hovered, locked, numPanels]);
 
   const activeProp = locked !== null ? properties[locked % properties.length]
     : hovered !== null ? properties[hovered % properties.length]
@@ -220,9 +221,8 @@ export default function Hero() {
       )}
 
       {/* Ring */}
-      <div style={{
-        position: 'absolute', left: '50%', top: '72%', width: '100%', height: 420,
-        transform: 'translate(-50%,-50%)', perspective: 1200, zIndex: 10,
+      <div className="hero-ring" style={{
+        position: 'absolute', left: '50%', transform: 'translate(-50%,-50%)', perspective: 1200, zIndex: 10,
       }}>
         <div ref={orbitRef} style={{ position: 'absolute', width: '100%', height: '100%', transformStyle: 'preserve-3d' }} />
       </div>
@@ -232,11 +232,34 @@ export default function Hero() {
         .hero-title { font-size: 76px; }
         .hero-subtitle { font-size: 20px; }
         .hero-bottom-text { font-size: 11px; }
+
+        .hero-ring {
+          top: 72%;
+          height: 420px;
+          width: 100%;
+        }
+        
+        .hero-panel {
+          width: 86px;
+          height: 200px;
+          border-radius: 4px;
+        }
+
         @media (max-width: 768px) {
           .hero-title { font-size: 40px !important; margin-bottom: 12px !important; }
           .hero-subtitle { font-size: 15px !important; }
           .hero-bottom-text { font-size: 9px !important; letter-spacing: 2px !important; }
           .hero-text-container { top: 15% !important; }
+          
+          .hero-ring {
+            top: 60%;
+            height: 380px;
+          }
+          
+          .hero-panel {
+            width: 100px;
+            height: 232px;
+          }
         }
       `}</style>
     </section>
