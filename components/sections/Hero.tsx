@@ -66,7 +66,7 @@ export default function Hero() {
       const isMobile = window.innerWidth < 768;
       setNumPanels(isMobile ? 24 : 36);
       setRadiusX(isMobile ? window.innerWidth * 1.1 : 580);
-      setRadiusY(isMobile ? window.innerWidth * 0.45 : 150);
+      setRadiusY(isMobile ? window.innerWidth * 0.25 : 150);
     };
     update();
     window.addEventListener('resize', update);
@@ -249,7 +249,7 @@ export default function Hero() {
           .hero-title { font-size: 40px !important; margin-bottom: 12px !important; }
           .hero-subtitle { font-size: 15px !important; }
           .hero-bottom-text { font-size: 9px !important; letter-spacing: 2px !important; }
-          .hero-text-container { top: 15% !important; }
+          .hero-text-container { top: 25% !important; }
           
           .hero-ring {
             top: 55%;
@@ -258,7 +258,7 @@ export default function Hero() {
           
           .hero-panel {
             width: 130px;
-            height: 302px;
+            height: 220px;
           }
         }
       `}</style>
