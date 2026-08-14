@@ -1,6 +1,11 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import gsap from 'gsap';
+import { useGSAP } from '@gsap/react';
+import ParticleBackground from '@/components/ui/ParticleBackground';
+
+gsap.registerPlugin(useGSAP);
 
 const categories = [
   'Luxury Apartments', 'Villas', 'Commercial', 'Waterfront', 'Sky Residences',
@@ -46,7 +51,11 @@ const properties = Array.from({ length: 300 }, (_, i) => ({
 
 
 export default function Hero() {
+  const containerRef = useRef<HTMLElement>(null);
   const orbitRef = useRef<HTMLDivElement>(null);
+  const ringWrapperRef = useRef<HTMLDivElement>(null);
+  const pulseRing1Ref = useRef<HTMLDivElement>(null);
+  const pulseRing2Ref = useRef<HTMLDivElement>(null);
   const rafRef = useRef<number>(0);
   const rotationRef = useRef(0);
   const velocityRef = useRef(0.0005);
@@ -164,16 +173,55 @@ export default function Hero() {
     return () => cancelAnimationFrame(rafRef.current);
   }, [radiusX, radiusY, hovered, locked, numPanels]);
 
+  useGSAP(() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) {
+      gsap.to(containerRef.current, { opacity: 1, duration: 1 });
+      return;
+    }
+
+    const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+
+    tl.fromTo(pulseRing1Ref.current,
+      { scale: 0, opacity: 1 },
+      { scale: 2.5, opacity: 0, duration: 2, ease: "power2.out" },
+      0.6
+    )
+      .fromTo(pulseRing2Ref.current,
+        { scale: 0, opacity: 1, rotate: 0 },
+        { scale: 3.5, opacity: 0, rotate: 180, duration: 2.8, ease: "power2.out" },
+        0.8
+      )
+      .fromTo(ringWrapperRef.current,
+        { opacity: 0, scale: 0.94, y: 40 },
+        { opacity: 1, scale: 1, y: 0, duration: 1.5 },
+        0.7
+      )
+      .fromTo('.hero-title',
+        { opacity: 0, y: 30, filter: 'blur(8px)' },
+        { opacity: 1, y: 0, filter: 'blur(0px)', duration: 1.2 },
+        0.9
+      )
+      .fromTo('.hero-subtitle',
+        { opacity: 0, y: 20 },
+        { opacity: 1, y: 0, duration: 1 },
+        1.1
+      );
+  }, { scope: containerRef });
+
   const activeProp = locked !== null ? properties[locked % properties.length]
     : hovered !== null ? properties[hovered % properties.length]
       : null;
 
   return (
     <section
+      ref={containerRef}
       className="relative w-full overflow-hidden"
       style={{ minHeight: '100vh', background: '#0a0e1a' }}
       onClick={() => setLocked(null)}
     >
+      <ParticleBackground />
+
       {/* Center copy */}
       {!activeProp && (
         <div className="hero-text-container" style={{
@@ -220,10 +268,21 @@ export default function Hero() {
         </div>
       )}
 
-      {/* Ring */}
-      <div className="hero-ring" style={{
+      {/* Ring container + Pulses */}
+      <div ref={ringWrapperRef} className="hero-ring" style={{
         position: 'absolute', left: '50%', transform: 'translate(-50%,-50%)', perspective: 1200, zIndex: 10,
+        opacity: 0, // setup for GSAP
       }}>
+        {/* Entrance Pulses */}
+        <div ref={pulseRing1Ref} style={{
+          position: 'absolute', width: '500px', height: '500px', border: '1px solid rgba(255,255,255,0.3)',
+          borderRadius: '50%', left: '50%', top: '50%', transform: 'translate(-50%, -50%)', opacity: 0, pointerEvents: 'none'
+        }} />
+        <div ref={pulseRing2Ref} style={{
+          position: 'absolute', width: '380px', height: '380px', border: '2px solid rgba(14,165,233,0.6)',
+          borderRadius: '50%', left: '50%', top: '50%', transform: 'translate(-50%, -50%)', opacity: 0, pointerEvents: 'none'
+        }} />
+
         <div ref={orbitRef} style={{ position: 'absolute', width: '100%', height: '100%', transformStyle: 'preserve-3d' }} />
       </div>
 
